@@ -2,6 +2,7 @@ package ru.netology.nmedia
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.annotation.DrawableRes
 import ru.netology.nmedia.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -11,6 +12,12 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val postInfo = PostInfo(
+            likesCount = 999,
+            shareCount = 999,
+            visibleCount = 999
+        )
+
         val post = Post(
             id = 1,
             author = "Timur",
@@ -18,23 +25,34 @@ class MainActivity : AppCompatActivity() {
             published = "03/07/2022"
         )
 
+        binding.render(post, postInfo)
+
         binding.like.setOnClickListener {
-            binding.like.setImageResource(R.drawable.ic_red_heart_24)
-        }
-        with(binding) {
-            authorName.text = post.author
-            date.text = post.published
-            text.text = post.content
-            if (post.likedByMe) {
-                like.setImageResource(R.drawable.ic_red_heart_24)
-            }
-            like.setOnClickListener {
-                post.likedByMe = !post.likedByMe
-                like.setImageResource(
-                    if(post.likedByMe) R.drawable.ic_red_heart_24 else R.drawable.ic_heart_24
-                )
-            }
+            post.likedByMe = !post.likedByMe
+            binding.like.setImageResource(getLikeIconResId(post.likedByMe))
+            binding.likesCount.setText(postInfo.likesCount++)
         }
 
     }
+    private fun ActivityMainBinding.render(post: Post, postInfo: PostInfo) {
+        authorName.text = post.author
+        date.text = post.published
+        text.text = post.content
+        likesCount.text = postInfo.likesCount.toString()
+        shareCount.text = postInfo.shareCount.toString()
+        visibleCount.text = postInfo.visibleCount.toString()
+        like.setImageResource(getLikeIconResId(post.likedByMe))
+    }
+
+    @DrawableRes
+    private fun getLikeIconResId(liked: Boolean) =
+        if(liked) {
+            R.drawable.ic_red_heart_24
+        } else {
+            R.drawable.ic_heart_24
+        }
+
 }
+
+
+
