@@ -2,4 +2,8 @@
     <string name="app_name">NMedia</string>
     <string name="hello_kotlin">Hello Kotlin!</string>
     <string name="avatar_description">Author avatar</string>
+    <string name="options">options</string>
+    <string name="like">like</string>
+    <string name="share">share</string>
+    <string name="visible">visible</string>
 </resources>
