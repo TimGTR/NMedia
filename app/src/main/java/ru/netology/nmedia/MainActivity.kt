@@ -30,8 +30,9 @@ class MainActivity : AppCompatActivity() {
         binding.like.setOnClickListener {
             post.likedByMe = !post.likedByMe
             binding.like.setImageResource(getLikeIconResId(post.likedByMe))
-            binding.likesCount.setText(postInfo.likesCount++)
+            binding.likesCount.setText(getLikesCount(post.likedByMe, postInfo))
         }
+
 
     }
     private fun ActivityMainBinding.render(post: Post, postInfo: PostInfo) {
@@ -48,10 +49,18 @@ class MainActivity : AppCompatActivity() {
     private fun getLikeIconResId(liked: Boolean) =
         if(liked) {
             R.drawable.ic_red_heart_24
+            //postInfo.likesCount++
         } else {
             R.drawable.ic_heart_24
+            //postInfo.likesCount--
         }
+    private fun getLikesCount(liked: Boolean, postInfo: PostInfo) =
+        if(liked) {
+            ++postInfo.likesCount
 
+        } else {
+            --postInfo.likesCount
+        }
 }
 
 
