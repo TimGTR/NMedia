@@ -28,10 +28,15 @@ class MainActivity : AppCompatActivity() {
         binding.render(post, postInfo)
 
         binding.like.setOnClickListener {
+            getLikesCount(post.likedByMe,postInfo)
             post.likedByMe = !post.likedByMe
             binding.like.setImageResource(getLikeIconResId(post.likedByMe))
-            binding.likesCount.setText(getLikesCount(post.likedByMe, postInfo))
         }
+
+        binding.share.setOnClickListener {
+            getShareCount(postInfo)
+        }
+
 
 
     }
@@ -61,6 +66,10 @@ class MainActivity : AppCompatActivity() {
         } else {
             --postInfo.likesCount
         }
+
+    private fun getShareCount(postInfo: PostInfo) =
+        ++postInfo.shareCount
+
 }
 
 
