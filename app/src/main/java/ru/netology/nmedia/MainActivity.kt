@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        var myTW = findViewById<TextView>(R.id.likesCount)
+        //var myTW = findViewById<TextView>(R.id.likesCount)
 
         val postInfo = PostInfo()
 
@@ -31,12 +31,13 @@ class MainActivity : AppCompatActivity() {
             binding.like.setImageResource(getLikeIconResId(post.likedByMe))
             getLikesCount(post.likedByMe,postInfo)
             //myTW.setText(postInfo.likesCount) //через findviewbyid
-            binding.likesCount.setText(postInfo.likesCount) //через binding
+            binding.likesCount.setText(postInfo.likesCount.toString()) //через binding
         }
 
-//        binding.share.setOnClickListener {
-//            getShareCount(postInfo)
-//        }
+        binding.share.setOnClickListener {
+            getShareCount(postInfo)
+            binding.shareCount.setText(postInfo.shareCount.toString())
+        }
 
 
 
