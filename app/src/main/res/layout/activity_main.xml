@@ -80,7 +80,7 @@
         android:contentDescription="@string/like" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/likes_count"
+        android:id="@+id/likesCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -94,17 +94,17 @@
         android:layout_height="wrap_content"
         android:id="@+id/share"
         android:src="@drawable/ic_share_24"
-        app:layout_constraintStart_toEndOf="@+id/likes_count"
+        app:layout_constraintStart_toEndOf="@+id/likesCount"
         android:layout_marginStart="@dimen/common_spacing"
         app:layout_constraintTop_toTopOf="@id/like"
         android:contentDescription="@string/share" />
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/share_count"
+        android:id="@+id/shareCount"
         app:layout_constraintTop_toTopOf="@+id/share"
         app:layout_constraintBottom_toBottomOf="@id/share"
-        tools:text="3"
+        android:text="@{postinfo.shareCount}"
         app:layout_constraintStart_toEndOf="@id/share"
         android:layout_marginStart="8dp"
         />
