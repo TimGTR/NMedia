@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     private fun getShareCount(postInfo: PostInfo) =
-        ++postInfo.shareCount
+        postInfo.shareCount++
 
 }
 
