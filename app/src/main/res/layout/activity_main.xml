@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/common_spacing">
-
     <ImageView
         android:id="@+id/avatar"
         android:layout_width="@dimen/post_avatar_space"
@@ -88,7 +87,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/like"
         app:layout_constraintStart_toEndOf="@+id/like"
         app:layout_constraintTop_toTopOf="@+id/like"
-        android:text="10"
+        android:text="@{postinfo.likesCount}"
         />
     <ImageButton
         android:layout_width="wrap_content"

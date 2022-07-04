@@ -2,6 +2,8 @@ package ru.netology.nmedia
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.TextView
 import androidx.annotation.DrawableRes
 import ru.netology.nmedia.databinding.ActivityMainBinding
 
@@ -11,12 +13,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        var myTW = findViewById<TextView>(R.id.likes_count)
 
-        val postInfo = PostInfo(
-            likesCount = 999,
-            shareCount = 999,
-            visibleCount = 999
-        )
+        val postInfo = PostInfo()
 
         val post = Post(
             id = 1,
@@ -28,14 +27,16 @@ class MainActivity : AppCompatActivity() {
         binding.render(post, postInfo)
 
         binding.like.setOnClickListener {
-            getLikesCount(post.likedByMe,postInfo)
             post.likedByMe = !post.likedByMe
             binding.like.setImageResource(getLikeIconResId(post.likedByMe))
+            getLikesCount(post.likedByMe,postInfo)
+            //myTW.setText(postInfo.likesCount) //через findviewbyid
+            //binding.likesCount.setText(postInfo.likesCount) //через binding
         }
 
-        binding.share.setOnClickListener {
-            getShareCount(postInfo)
-        }
+//        binding.share.setOnClickListener {
+//            getShareCount(postInfo)
+//        }
 
 
 
@@ -61,10 +62,10 @@ class MainActivity : AppCompatActivity() {
         }
     private fun getLikesCount(liked: Boolean, postInfo: PostInfo) =
         if(liked) {
-            ++postInfo.likesCount
+            postInfo.likesCount++
 
         } else {
-            --postInfo.likesCount
+            postInfo.likesCount--
         }
 
     private fun getShareCount(postInfo: PostInfo) =
