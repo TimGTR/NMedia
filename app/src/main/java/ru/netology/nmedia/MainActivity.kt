@@ -31,12 +31,12 @@ class MainActivity : AppCompatActivity() {
             binding.like.setImageResource(getLikeIconResId(post.likedByMe))
             getLikesCount(post.likedByMe,postInfo)
             //myTW.setText(postInfo.likesCount) //через findviewbyid
-            binding.likesCount.setText(postInfo.likesCount.toString()) //через binding
+            binding.likesCount.text = postInfo.likesCount.toString() //через binding
         }
 
         binding.share.setOnClickListener {
             getShareCount(postInfo)
-            binding.shareCount.setText(postInfo.shareCount.toString())
+            binding.shareCount.text = postInfo.shareCount.toString()
         }
 
 
