@@ -2,10 +2,10 @@ package ru.netology.nmedia
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.TextView
 import androidx.annotation.DrawableRes
 import ru.netology.nmedia.databinding.ActivityMainBinding
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,12 +31,15 @@ class MainActivity : AppCompatActivity() {
             binding.like.setImageResource(getLikeIconResId(post.likedByMe))
             getLikesCount(post.likedByMe,postInfo)
             //myTW.setText(postInfo.likesCount) //через findviewbyid
-            binding.likesCount.text = postInfo.likesCount.toString() //через binding
-        }
+            binding.likesCount.text =
+                remakeLikesCount(postInfo)
+         }
 
         binding.share.setOnClickListener {
             getShareCount(postInfo)
-            binding.shareCount.text = postInfo.shareCount.toString()
+            binding.shareCount.text =
+                remakeShareCount(postInfo)
+
         }
 
 
@@ -71,6 +74,33 @@ class MainActivity : AppCompatActivity() {
 
     private fun getShareCount(postInfo: PostInfo) =
         postInfo.shareCount++
+
+    private fun remakeShareCount(postInfo: PostInfo) =
+        if (postInfo.shareCount < 1000) {
+            postInfo.shareCount.toString()
+        } else if (postInfo.shareCount < 1_000_000) {
+            val df = DecimalFormat("#.#")
+            df.roundingMode = RoundingMode.CEILING
+            "${df.format((postInfo.shareCount/1000).toDouble())}K"
+        } else {
+            val df = DecimalFormat("#.#")
+            df.roundingMode = RoundingMode.CEILING
+            "${df.format((postInfo.shareCount/1000000).toDouble())}M"
+        }
+
+    private fun remakeLikesCount(postInfo: PostInfo) =
+        if (postInfo.likesCount < 1000) {
+            postInfo.likesCount.toString()
+        } else if (postInfo.likesCount < 1_000_000) {
+            val df = DecimalFormat("#.#")
+            df.roundingMode = RoundingMode.CEILING
+            "${df.format((postInfo.likesCount/1000).toDouble())}K"
+        } else {
+            val df = DecimalFormat("#.#")
+            df.roundingMode = RoundingMode.CEILING
+            "${df.format((postInfo.likesCount/1000000).toDouble())}M"
+        }
+
 
 }
 
