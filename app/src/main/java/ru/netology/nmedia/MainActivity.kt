@@ -81,11 +81,11 @@ class MainActivity : AppCompatActivity() {
         } else if (postInfo.shareCount < 1_000_000) {
             val df = DecimalFormat("#.#")
             df.roundingMode = RoundingMode.CEILING
-            "${df.format((postInfo.shareCount/1000).toDouble())}K"
+            "${df.format((postInfo.shareCount/1000.0).toDouble())}K"
         } else {
             val df = DecimalFormat("#.#")
             df.roundingMode = RoundingMode.CEILING
-            "${df.format((postInfo.shareCount/1000000).toDouble())}M"
+            "${df.format((postInfo.shareCount/1000000.0).toDouble())}M"
         }
 
     private fun remakeLikesCount(postInfo: PostInfo) =
@@ -94,14 +94,12 @@ class MainActivity : AppCompatActivity() {
         } else if (postInfo.likesCount < 1_000_000) {
             val df = DecimalFormat("#.#")
             df.roundingMode = RoundingMode.CEILING
-            "${df.format((postInfo.likesCount/1000).toDouble())}K"
+            "${df.format(postInfo.likesCount/1000.0)}K"
         } else {
             val df = DecimalFormat("#.#")
             df.roundingMode = RoundingMode.CEILING
-            "${df.format((postInfo.likesCount/1000000).toDouble())}M"
+            "${df.format((postInfo.likesCount/1000000.0).toDouble())}M"
         }
-
-
 }
 
 
