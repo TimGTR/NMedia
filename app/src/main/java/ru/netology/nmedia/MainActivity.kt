@@ -15,7 +15,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         //var myTW = findViewById<TextView>(R.id.likesCount)
 
-        val postInfo = PostInfo()
 
         val post = Post(
             id = 1,
@@ -24,81 +23,82 @@ class MainActivity : AppCompatActivity() {
             published = "03/07/2022"
         )
 
-        binding.render(post, postInfo)
+        binding.render(post)
 
         binding.like.setOnClickListener {
             post.likedByMe = !post.likedByMe
-            binding.like.setImageResource(getLikeIconResId(post.likedByMe))
-            getLikesCount(post.likedByMe,postInfo)
+            binding.like.setImageResource(getLikeIconResId(post))
+            getLikesCount(post)
             //myTW.setText(postInfo.likesCount) //через findviewbyid
             binding.likesCount.text =
-                remakeLikesCount(postInfo)
-         }
+                remakeLikesCount(post)
+        }
 
         binding.share.setOnClickListener {
-            getShareCount(postInfo)
+            getShareCount(post)
             binding.shareCount.text =
-                remakeShareCount(postInfo)
+                remakeShareCount(post)
 
         }
 
 
-
     }
-    private fun ActivityMainBinding.render(post: Post, postInfo: PostInfo) {
+
+    private fun ActivityMainBinding.render(post: Post) {
         authorName.text = post.author
         date.text = post.published
         text.text = post.content
-        likesCount.text = postInfo.likesCount.toString()
-        shareCount.text = postInfo.shareCount.toString()
-        visibleCount.text = postInfo.visibleCount.toString()
-        like.setImageResource(getLikeIconResId(post.likedByMe))
+        likesCount.text = post.likesCount.toString()
+        shareCount.text = post.shareCount.toString()
+        visibleCount.text = post.visibleCount.toString()
+        like.setImageResource(getLikeIconResId(post))
     }
 
     @DrawableRes
-    private fun getLikeIconResId(liked: Boolean) =
-        if(liked) {
+    private fun getLikeIconResId(post: Post) =
+        if (post.likedByMe) {
             R.drawable.ic_red_heart_24
             //postInfo.likesCount++
         } else {
             R.drawable.ic_heart_24
             //postInfo.likesCount--
         }
-    private fun getLikesCount(liked: Boolean, postInfo: PostInfo) =
-        if(liked) {
-            postInfo.likesCount++
+
+    private fun getLikesCount(post: Post) =
+        if (post.likedByMe) {
+            post.likesCount++
 
         } else {
-            postInfo.likesCount--
+            post.likesCount--
         }
 
-    private fun getShareCount(postInfo: PostInfo) =
-        postInfo.shareCount++
+    private fun getShareCount(post: Post) =
+        post.shareCount++
 
-    private fun remakeShareCount(postInfo: PostInfo) =
-        if (postInfo.shareCount < 1000) {
-            postInfo.shareCount.toString()
-        } else if (postInfo.shareCount < 1_000_000) {
+    private fun remakeShareCount(post: Post) =
+        if (post.shareCount < 1000) {
+            post.shareCount.toString()
+        } else if (post.shareCount < 1_000_000) {
             val df = DecimalFormat("#.#")
             df.roundingMode = RoundingMode.CEILING
-            "${df.format((postInfo.shareCount/1000.0).toDouble())}K"
+            "${df.format((post.shareCount / 1000.0))}K"
         } else {
             val df = DecimalFormat("#.#")
             df.roundingMode = RoundingMode.CEILING
-            "${df.format((postInfo.shareCount/1000000.0).toDouble())}M"
+            "${df.format((post.shareCount / 1000000.0))}M"
         }
 
-    private fun remakeLikesCount(postInfo: PostInfo) =
-        if (postInfo.likesCount < 1000) {
-            postInfo.likesCount.toString()
-        } else if (postInfo.likesCount < 1_000_000) {
+    private fun remakeLikesCount(post: Post) =
+        if (post.likesCount < 1000) {
+            post.likesCount.toString()
+        } else if (post.likesCount < 1_000_000) {
             val df = DecimalFormat("#.#")
             df.roundingMode = RoundingMode.CEILING
-            "${df.format(postInfo.likesCount/1000.0)}K"
+            "${df.format(post.likesCount / 1000.0)}K"
         } else {
             val df = DecimalFormat("#.#")
             df.roundingMode = RoundingMode.CEILING
-            "${df.format((postInfo.likesCount/1000000.0).toDouble())}M"
+            "${df.format((post.likesCount / 1000000.0))}M"
         }
 }
 
