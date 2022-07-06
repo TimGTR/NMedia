@@ -31,13 +31,13 @@ class MainActivity : AppCompatActivity() {
             getLikesCount(post)
             //myTW.setText(postInfo.likesCount) //через findviewbyid
             binding.likesCount.text =
-                remakeLikesCount(post)
+                remakeCount(post.likesCount)
         }
 
         binding.share.setOnClickListener {
             getShareCount(post)
             binding.shareCount.text =
-                remakeShareCount(post)
+                remakeCount(post.shareCount)
 
         }
 
@@ -75,31 +75,20 @@ class MainActivity : AppCompatActivity() {
     private fun getShareCount(post: Post) =
         post.shareCount++
 
-    private fun remakeShareCount(post: Post) =
-        if (post.shareCount < 1000) {
-            post.shareCount.toString()
-        } else if (post.shareCount < 1_000_000) {
+    private fun remakeCount(count: Int) =
+        if (count < 1000) {
+            count.toString()
+        } else if (count < 1_000_000) {
             val df = DecimalFormat("#.#")
             df.roundingMode = RoundingMode.CEILING
-            "${df.format((post.shareCount / 1000.0))}K"
+            "${df.format((count / 1000.0))}K"
         } else {
             val df = DecimalFormat("#.#")
             df.roundingMode = RoundingMode.CEILING
-            "${df.format((post.shareCount / 1000000.0))}M"
+            "${df.format((count / 1000000.0))}M"
         }
 
-    private fun remakeLikesCount(post: Post) =
-        if (post.likesCount < 1000) {
-            post.likesCount.toString()
-        } else if (post.likesCount < 1_000_000) {
-            val df = DecimalFormat("#.#")
-            df.roundingMode = RoundingMode.CEILING
-            "${df.format(post.likesCount / 1000.0)}K"
-        } else {
-            val df = DecimalFormat("#.#")
-            df.roundingMode = RoundingMode.CEILING
-            "${df.format((post.likesCount / 1000000.0))}M"
-        }
+
 }
 
 
