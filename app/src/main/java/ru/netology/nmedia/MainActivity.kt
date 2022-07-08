@@ -2,12 +2,16 @@ package ru.netology.nmedia
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.annotation.DrawableRes
+import androidx.activity.viewModels
 import ru.netology.nmedia.databinding.ActivityMainBinding
+import ru.netology.nmedia.repository.Post
+import ru.netology.nmedia.viewmodel.PostViewModel
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
+
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -15,31 +19,24 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         //var myTW = findViewById<TextView>(R.id.likesCount)
 
+        val viewModel:PostViewModel by viewModels()
+        viewModel.data.observe(this) { post ->
+            binding.render(post)
 
-        val post = Post(
-            id = 1,
-            author = "Timur",
-            content = "Это первый пост в НМедиа",
-            published = "03/07/2022"
-        )
+        }
 
-        binding.render(post)
 
         binding.like.setOnClickListener {
-            post.likedByMe = !post.likedByMe
-            binding.like.setImageResource(getLikeIconResId(post))
-            getLikesCount(post)
-            //myTW.setText(postInfo.likesCount) //через findviewbyid
-            binding.likesCount.text =
-                remakeCount(post.likesCount)
-        }
+            viewModel.like()
+            viewModel.getLikesCount()
 
-        binding.share.setOnClickListener {
-            getShareCount(post)
-            binding.shareCount.text =
-                remakeCount(post.shareCount)
 
         }
+
+       binding.share.setOnClickListener {
+            viewModel.getShareCount()
+
+       }
 
 
     }
@@ -51,29 +48,14 @@ class MainActivity : AppCompatActivity() {
         likesCount.text = post.likesCount.toString()
         shareCount.text = post.shareCount.toString()
         visibleCount.text = post.visibleCount.toString()
-        like.setImageResource(getLikeIconResId(post))
+        like.setImageResource(
+            if (post.likedByMe) R.drawable.ic_red_heart_24 else R.drawable.ic_heart_24)
+
     }
 
-    @DrawableRes
-    private fun getLikeIconResId(post: Post) =
-        if (post.likedByMe) {
-            R.drawable.ic_red_heart_24
-            //postInfo.likesCount++
-        } else {
-            R.drawable.ic_heart_24
-            //postInfo.likesCount--
-        }
 
-    private fun getLikesCount(post: Post) =
-        if (post.likedByMe) {
-            post.likesCount++
 
-        } else {
-            post.likesCount--
-        }
 
-    private fun getShareCount(post: Post) =
-        post.shareCount++
 
     private fun remakeCount(count: Int) =
         if (count < 1000) {
