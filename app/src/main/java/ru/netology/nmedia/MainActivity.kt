@@ -45,9 +45,9 @@ class MainActivity : AppCompatActivity() {
         authorName.text = post.author
         date.text = post.published
         text.text = post.content
-        likesCount.text = post.likesCount.toString()
-        shareCount.text = post.shareCount.toString()
-        visibleCount.text = post.visibleCount.toString()
+        likesCount.text = remakeCount(post.likesCount)
+        shareCount.text = remakeCount(post.shareCount)
+        visibleCount.text = remakeCount(post.visibleCount)
         like.setImageResource(
             if (post.likedByMe) R.drawable.ic_red_heart_24 else R.drawable.ic_heart_24)
 
