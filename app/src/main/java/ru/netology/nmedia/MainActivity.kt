@@ -17,8 +17,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //var myTW = findViewById<TextView>(R.id.likesCount)
-
         val viewModel:PostViewModel by viewModels()
         viewModel.data.observe(this) { post ->
             binding.render(post)
@@ -28,9 +26,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.like.setOnClickListener {
             viewModel.like()
-            viewModel.getLikesCount()
-
-
         }
 
        binding.share.setOnClickListener {
@@ -49,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         shareCount.text = remakeCount(post.shareCount)
         visibleCount.text = remakeCount(post.visibleCount)
         like.setImageResource(
-            if (post.likedByMe) R.drawable.ic_red_heart_24 else R.drawable.ic_heart_24)
+            if (post.likedByMe == true) R.drawable.ic_red_heart_24 else R.drawable.ic_heart_24)
 
     }
 
