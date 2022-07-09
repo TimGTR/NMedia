@@ -5,18 +5,26 @@ import androidx.lifecycle.MutableLiveData
 
 
 class PostRepositoryInMemoryImpl : PostRepository {
-    private var post = Post(
+    private var posts = listOf(
+        Post(
         id = 1,
         author = "Timur",
         content = "Это первый пост в НМедиа",
         published = "03/07/2022"
-    )
+    ),
+        Post(
+            id = 2,
+            author = "T",
+            content = "Это 2 пост в НМедиа",
+            published = "03/07/2022"
+        ))
 
-    private val data = MutableLiveData(post)
+    private val data = MutableLiveData(posts)
 
-    override fun get(): LiveData<Post> = data
+    override fun getAll(): LiveData<List<Post>> = data
 
-    override fun like() {
+    override fun likeById(id:Long) {
+
         post = post.copy(
             likedByMe = !post.likedByMe
         )
