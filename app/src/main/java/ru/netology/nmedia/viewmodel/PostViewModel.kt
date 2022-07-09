@@ -8,8 +8,8 @@ import java.text.DecimalFormat
 
 class PostViewModel : ViewModel() {
     private val repository: PostRepository = PostRepositoryInMemoryImpl()
-    val data = repository.get()
-    fun like() = repository.like()
-    fun getShareCount() = repository.getShareCount()
+    val data = repository.getAll()
+    fun like(id: Long) = repository.likeById(id)
+    fun getShareCount(id: Long) = repository.getShareCountById(id)
 }
 
