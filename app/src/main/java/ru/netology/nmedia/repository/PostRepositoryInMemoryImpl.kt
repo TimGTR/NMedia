@@ -5,31 +5,46 @@ import androidx.lifecycle.MutableLiveData
 
 
 class PostRepositoryInMemoryImpl : PostRepository {
-    private var post = Post(
-        id = 1,
-        author = "Timur",
-        content = "Это первый пост в НМедиа",
-        published = "03/07/2022"
-    )
-
-    private val data = MutableLiveData(post)
-
-    override fun get(): LiveData<Post> = data
-
-    override fun like() {
-        post = post.copy(
-            likedByMe = !post.likedByMe
+    private var posts = List(1000) {index ->
+        Post(
+            id = index + 1L,
+            author = "Timur",
+            content = "Контен поста №${index + 1}",
+            published = "03/07/2022"
         )
-        post = post.copy(
-            likesCount = if (post.likedByMe) post.likesCount + 1 else post.likesCount - 1
-        )
-        data.value = post
     }
 
 
-    override fun getShareCount() {
-        post = post.copy(shareCount = post.shareCount + 1)
-        data.value = post
+    private val data = MutableLiveData(posts)
+
+    override fun getAll(): LiveData<List<Post>> = data
+
+    override fun likeById(id: Long) {
+        posts = posts.map { post ->
+            if (post.id != id) post
+            else post.copy(likedByMe = !post.likedByMe)
+        }
+        posts = posts.map { post ->
+            if (post.id == id) {
+                if (post.likedByMe) post.copy(likesCount = post.likesCount + 1)
+                else post.copy(likesCount = post.likesCount - 1)
+            } else post
+
+
+        }
+        data.value = posts
+    }
+
+
+    override fun getShareCountById(id: Long) {
+        posts = posts.map { post ->
+            if (post.id == id) {
+                post.copy(shareCount = post.shareCount + 1)
+
+            } else post
+
+        }
+        data.value = posts
     }
 
 
