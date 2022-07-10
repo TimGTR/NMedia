@@ -5,20 +5,15 @@ import androidx.lifecycle.MutableLiveData
 
 
 class PostRepositoryInMemoryImpl : PostRepository {
-    private var posts = listOf(
+    private var posts = List(1000) {index ->
         Post(
-            id = 1,
+            id = index + 1L,
             author = "Timur",
-            content = "Это первый пост в НМедиа",
-            published = "03/07/2022"
-        ),
-        Post(
-            id = 2,
-            author = "T",
-            content = "Это 2 пост в НМедиа",
+            content = "Контен поста №${index + 1}",
             published = "03/07/2022"
         )
-    )
+    }
+
 
     private val data = MutableLiveData(posts)
 
