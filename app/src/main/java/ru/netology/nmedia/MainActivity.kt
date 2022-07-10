@@ -9,7 +9,6 @@ import ru.netology.nmedia.databinding.ActivityMainBinding
 import ru.netology.nmedia.viewmodel.PostViewModel
 
 
-
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,37 +16,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val viewModel:PostViewModel by viewModels()
+        val viewModel: PostViewModel by viewModels()
+        val adapter = PostsAdapter(onLikeClicked = { post ->
+            viewModel.like(post)
+        },
+            onShareClicked = { post ->
+                viewModel.getShareCount(post)
+
+            }
+        )
+        binding.postsRecyclerView.adapter = adapter
         viewModel.data.observe(this) { posts ->
-            val adapter = PostsAdapter(posts, onLikeClicked = { post->
-                viewModel.like(post)
-            },
-                onShareClicked = { post ->
-                    viewModel.getShareCount(post)
-
-                }
-            )
-            binding.postsRecyclerView.adapter = adapter
-
-
-
+            adapter.submitList(posts)
         }
 
 
-
-
-
-
-
     }
-
-
-
-
-
-
-
-
 
 
 }

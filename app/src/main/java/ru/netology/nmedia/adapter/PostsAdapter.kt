@@ -3,6 +3,8 @@ package ru.netology.nmedia.adapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.PostCardBinding
@@ -10,35 +12,56 @@ import ru.netology.nmedia.repository.Post
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
-
+typealias OnListener = (Post) -> Unit
 
 class PostsAdapter(
-    private val posts: List<Post>,
-    private val onLikeClicked: (Post) -> Unit,
-    private val onShareClicked: (Post) -> Unit
-) : RecyclerView.Adapter<PostsAdapter.ViewHolder>() {
+    private val onLikeClicked: OnListener,
+    private val onShareClicked: OnListener
+) : ListAdapter<Post, PostsAdapter.ViewHolder>(DiffCallback) {
 
-    class ViewHolder(private val binding: PostCardBinding,
-                     private val onLikeClicked: (Post) -> Unit,
-                     private val onShareClicked: (Post) -> Unit
+
+    private object DiffCallback : DiffUtil.ItemCallback<Post>() {
+        override fun areItemsTheSame(oldItem: Post, newItem: Post) =
+            oldItem.id == newItem.id
+
+        override fun areContentsTheSame(oldItem: Post, newItem: Post) =
+            oldItem == newItem
+
+    }
+
+    class ViewHolder(
+        private val binding: PostCardBinding,
+        private val onLikeClicked: OnListener,
+        private val onShareClicked: OnListener
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(post: Post) = with(binding){
-            authorName.text = post.author
-            date.text = post.published
-            text.text = post.content
-            likesCount.text = remakeCount(post.likesCount)
-            shareCount.text = remakeCount(post.shareCount)
-            visibleCount.text = remakeCount(post.visibleCount)
-            like.setImageResource(
-                if (post.likedByMe) R.drawable.ic_red_heart_24 else R.drawable.ic_heart_24)
-            like.setOnClickListener {
+
+        private lateinit var post: Post
+
+        init {
+            binding.like.setOnClickListener {
                 onLikeClicked(post)
             }
-            share.setOnClickListener {
+            binding.share.setOnClickListener {
                 onShareClicked(post)
+            }
+        }
+
+        fun bind(post: Post) {
+            this.post = post
+            with(binding) {
+                authorName.text = post.author
+                date.text = post.published
+                text.text = post.content
+                likesCount.text = remakeCount(post.likesCount)
+                shareCount.text = remakeCount(post.shareCount)
+                visibleCount.text = remakeCount(post.visibleCount)
+                like.setImageResource(
+                    if (post.likedByMe) R.drawable.ic_red_heart_24 else R.drawable.ic_heart_24
+                )
 
             }
         }
+
         private fun remakeCount(count: Int) =
             if (count < 1000) {
                 count.toString()
@@ -57,17 +80,15 @@ class PostsAdapter(
         Log.d("PostsAdapter", "onCreate:")
         val inflater = LayoutInflater.from(parent.context)
         val binding = PostCardBinding.inflate(inflater, parent, false)
-        return  ViewHolder(binding, onLikeClicked, onShareClicked)
+        return ViewHolder(binding, onLikeClicked, onShareClicked)
 
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         Log.d("PostsAdapter", "onBind: $position")
-        val post = posts[position]
+        val post = getItem(position)
         holder.bind(post)
     }
-
-    override fun getItemCount(): Int = posts.size
 
 
 }

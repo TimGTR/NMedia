@@ -25,8 +25,11 @@ class PostRepositoryInMemoryImpl : PostRepository {
             else post.copy(likedByMe = !post.likedByMe)
         }
         posts = posts.map { post ->
-            if (post.likedByMe) post.copy(likesCount = post.likesCount + 1)
-            else post.copy(likesCount = post.likesCount - 1)
+            if (post.id == id) {
+                if (post.likedByMe) post.copy(likesCount = post.likesCount + 1)
+                else post.copy(likesCount = post.likesCount - 1)
+            } else post
+
 
         }
         data.value = posts
@@ -35,7 +38,10 @@ class PostRepositoryInMemoryImpl : PostRepository {
 
     override fun getShareCountById(id: Long) {
         posts = posts.map { post ->
-            post.copy(shareCount = post.shareCount + 1)
+            if (post.id == id) {
+                post.copy(shareCount = post.shareCount + 1)
+
+            } else post
 
         }
         data.value = posts
