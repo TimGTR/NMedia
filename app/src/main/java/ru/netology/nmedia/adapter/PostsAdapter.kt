@@ -1,14 +1,16 @@
 package ru.netology.nmedia.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.PostCardBinding
 import ru.netology.nmedia.repository.Post
-import java.lang.reflect.ParameterizedType
 import java.math.RoundingMode
 import java.text.DecimalFormat
+
+
 
 class PostsAdapter(
     private val posts: List<Post>,
@@ -52,6 +54,7 @@ class PostsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        Log.d("PostsAdapter", "onCreate:")
         val inflater = LayoutInflater.from(parent.context)
         val binding = PostCardBinding.inflate(inflater, parent, false)
         return  ViewHolder(binding, onLikeClicked, onShareClicked)
@@ -59,6 +62,7 @@ class PostsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        Log.d("PostsAdapter", "onBind: $position")
         val post = posts[position]
         holder.bind(post)
     }
