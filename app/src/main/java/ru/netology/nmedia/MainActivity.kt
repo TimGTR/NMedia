@@ -23,6 +23,9 @@ class MainActivity : AppCompatActivity() {
             onShareClicked = { post ->
                 viewModel.getShareCount(post)
 
+            },
+            onRemoveListener = {
+
             }
         )
         binding.postsRecyclerView.adapter = adapter
