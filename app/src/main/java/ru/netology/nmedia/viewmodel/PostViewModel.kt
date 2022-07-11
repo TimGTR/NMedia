@@ -12,5 +12,6 @@ class PostViewModel : ViewModel() {
     val data = repository.getAll()
     fun like(post: Post) = repository.likeById(post.id)
     fun getShareCount(post: Post) = repository.getShareCountById(post.id)
+    fun removeById(post: Post) = repository.removeById(post.id)
 }
 

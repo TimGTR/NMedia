@@ -16,7 +16,8 @@ typealias OnListener = (Post) -> Unit
 
 class PostsAdapter(
     private val onLikeClicked: OnListener,
-    private val onShareClicked: OnListener
+    private val onShareClicked: OnListener,
+    private val onRemoveListener: OnListener
 ) : ListAdapter<Post, PostsAdapter.ViewHolder>(DiffCallback) {
 
 
@@ -32,7 +33,8 @@ class PostsAdapter(
     class ViewHolder(
         private val binding: PostCardBinding,
         private val onLikeClicked: OnListener,
-        private val onShareClicked: OnListener
+        private val onShareClicked: OnListener,
+        private val onRemoveListener: OnListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private lateinit var post: Post
@@ -80,7 +82,7 @@ class PostsAdapter(
         Log.d("PostsAdapter", "onCreate:")
         val inflater = LayoutInflater.from(parent.context)
         val binding = PostCardBinding.inflate(inflater, parent, false)
-        return ViewHolder(binding, onLikeClicked, onShareClicked)
+        return ViewHolder(binding, onLikeClicked, onShareClicked, onRemoveListener)
 
     }
 
