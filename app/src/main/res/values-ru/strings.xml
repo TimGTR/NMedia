@@ -7,4 +7,7 @@
     <string name="like">like</string>
     <string name="share">share</string>
     <string name="visible">visible</string>
+    <string name="remove">Удалить</string>
+    <string name="post_text">Текст поста</string>
+    <string name="description">Описание</string>
 </resources>

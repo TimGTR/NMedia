@@ -3,6 +3,7 @@ package ru.netology.nmedia.adapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,12 +13,10 @@ import ru.netology.nmedia.repository.Post
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
-typealias OnListener = (Post) -> Unit
+
 
 class PostsAdapter(
-    private val onLikeClicked: OnListener,
-    private val onShareClicked: OnListener,
-    private val onRemoveListener: OnListener
+    private val interactionListener: PostInteractionListener
 ) : ListAdapter<Post, PostsAdapter.ViewHolder>(DiffCallback) {
 
 
@@ -32,20 +31,34 @@ class PostsAdapter(
 
     class ViewHolder(
         private val binding: PostCardBinding,
-        private val onLikeClicked: OnListener,
-        private val onShareClicked: OnListener,
-        private val onRemoveListener: OnListener
+        listener: PostInteractionListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private lateinit var post: Post
+        private val popupMenu by lazy {
+            PopupMenu(itemView.context, binding.options).apply {
+                inflate(R.menu.options_post)
+                setOnMenuItemClickListener { menuItem ->
+                    when (menuItem.itemId) {
+                        R.id.remove -> {
+                            listener.onRemoveClicked(post)
+                            true
+                        }
+                        else -> false
+                    }
+
+                }
+            }
+        }
 
         init {
             binding.like.setOnClickListener {
-                onLikeClicked(post)
+                listener.onLikeClicked(post)
             }
             binding.share.setOnClickListener {
-                onShareClicked(post)
+                listener.onShareClicked(post)
             }
+
         }
 
         fun bind(post: Post) {
@@ -60,6 +73,7 @@ class PostsAdapter(
                 like.setImageResource(
                     if (post.likedByMe) R.drawable.ic_red_heart_24 else R.drawable.ic_heart_24
                 )
+                options.setOnClickListener { popupMenu.show() }
 
             }
         }
@@ -82,7 +96,7 @@ class PostsAdapter(
         Log.d("PostsAdapter", "onCreate:")
         val inflater = LayoutInflater.from(parent.context)
         val binding = PostCardBinding.inflate(inflater, parent, false)
-        return ViewHolder(binding, onLikeClicked, onShareClicked, onRemoveListener)
+        return ViewHolder(binding, interactionListener)
 
     }
 

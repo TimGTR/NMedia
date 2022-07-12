@@ -6,4 +6,7 @@
     <string name="like">like</string>
     <string name="share">share</string>
     <string name="visible">visible</string>
+    <string name="remove">Remove</string>
+    <string name="post_text">post_text</string>
+    <string name="description">description</string>
 </resources>
