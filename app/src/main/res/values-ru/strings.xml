@@ -10,4 +10,5 @@
     <string name="remove">Удалить</string>
     <string name="post_text">Текст поста</string>
     <string name="description">Описание</string>
+    <string name="edit">Редактировать</string>
 </resources>
