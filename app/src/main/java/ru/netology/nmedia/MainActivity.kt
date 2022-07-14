@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import ru.netology.nmedia.adapter.PostsAdapter
 import ru.netology.nmedia.databinding.ActivityMainBinding
 import ru.netology.nmedia.util.hideKeyBoard
+import ru.netology.nmedia.util.showKeyBoard
 
 import ru.netology.nmedia.viewmodel.PostViewModel
 
@@ -27,13 +28,23 @@ class MainActivity : AppCompatActivity() {
             with(binding.contentEditText) {
                 val content = text.toString()
                 viewModel.onSaveButtonClicked(content)
-                clearFocus()
-                hideKeyBoard()
+
             }
 
         }
         viewModel.currentPost.observe(this) { currenPost ->
-            binding.contentEditText.setText(currenPost?.content)
+            with(binding.contentEditText) {
+                val content = currenPost?.content
+                setText(content)
+                if (content!= null) {
+                    requestFocus()
+                    showKeyBoard()
+                } else {
+                    clearFocus()
+                    hideKeyBoard()
+                }
+            }
+
 
         }
 
