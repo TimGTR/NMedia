@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
                 if (content!= null) {
                     requestFocus()
                     showKeyBoard()
+
                 } else {
                     clearFocus()
                     hideKeyBoard()
